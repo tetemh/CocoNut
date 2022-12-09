@@ -14,8 +14,8 @@ module.exports = async (bot) => {
     let query =
         await db.query(`CREATE TABLE IF NOT EXISTS log
         (
-            id INT PRIMARY KEY NOT NULL,
-            server_id INT(11) NOT NULL,
+            id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+            server_id LONGTEXT NOT NULL,
             value LONGTEXT
         )`);
 

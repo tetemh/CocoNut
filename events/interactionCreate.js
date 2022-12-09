@@ -10,9 +10,10 @@ module.exports = async (bot, interaction) => {
 
     if(interaction.type == Discord.InteractionType.ApplicationCommand){
         let command = require(`../commands/${interaction.commandName}`)
-        command.run(bot, interaction, interaction.options, bot.db)
+        await command.run(bot, interaction, interaction.options, bot.db)
     }
 
-    
-    db.query(`INSERT INTO log (server_id, message) VALUES (${interaction.guild.id}, '${interaction.user.username}: '${interaction.commandName})`)
+    if(interaction.commandName != 'init'){
+        db.query(`INSERT INTO ${interaction.guild.id}_log (server_id, value) VALUES ('${interaction.guild.id}', '${interaction.user.username}: ${interaction.commandName}')`)
+    }
 }
