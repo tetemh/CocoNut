@@ -56,6 +56,8 @@ module.exports = {
                             `Veuillez d'abord définir une category avec le \`/ticket setCategory { CategoryId }\``
                         );
                     } else {
+                        // console.log(query[0]);
+                        // return false
                         message.guild.channels.create({
                             name: `ticket-${message.user.username}`,
                             type: Discord.ChannelType.GuildText,
@@ -64,6 +66,8 @@ module.exports = {
                             message.reply(
                                 `Ticket Créer avec le nom <#${channel.id}>`
                             );
+                        }).catch(err => {
+                            message.reply(`Veuillez d'abord redéfinir une category avec le \`/ticket setCategory { CategoryId }\` car celle donner au part avant n'existe plus`)
                         });
                         
                     }
