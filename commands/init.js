@@ -1,6 +1,4 @@
 const Discord = require("discord.js");
-const fs = require("fs");
-const excel = require("excel4node");
 
 module.exports = {
     name: "init",
@@ -9,15 +7,20 @@ module.exports = {
     dm: false,
 
     async run(bot, message, args, db) {
-        let query =
-            await db.query(`CREATE TABLE IF NOT EXISTS ${message.guild.id}_config
+        await db.query(`CREATE TABLE IF NOT EXISTS ${message.guild.id}_config
         (
-            id INT PRIMARY KEY NOT NULL,
-            slug VARCHAR(255),
+            slug VARCHAR(255) UNIQUE NOT NULL,
             value LONGTEXT
         )`);
 
-        db.query(`INSERT INTO log (server_id, message) VALUES (${message.guild.id}, 'init DB')`)
+        await db.query(`CREATE TABLE IF NOT EXISTS ${message.guild.id}_log
+        (
+            id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+            server_id LONGTEXT NOT NULL,
+            value LONGTEXT
+        )`);
+
+        db.query(`INSERT INTO ${message.guild.id}_log (server_id, value) VALUES (${message.guild.id}, 'init DB')`)
 
         await message.reply("Bot Init");
     },
